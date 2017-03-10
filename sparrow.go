@@ -1,12 +1,12 @@
 package sparrow
 
 import (
+	"fmt"
+	"github.com/wqx/sparrow/inject"
 	"log"
 	"net/http"
 	"os"
 	"reflect"
-
-	"github.com/wqx/sparrow/inject"
 )
 
 type Sparrow struct {
@@ -75,11 +75,16 @@ type DefaultSparrow struct {
 }
 
 func Default() *DefaultSparrow {
+	fmt.Printf("New Router...\n")
 	r := NewRouter()
+	fmt.Printf("New Sparrow...\n")
 	s := New()
+	fmt.Printf("Register Logger Handler...\n")
 	s.Register(Logger())
 	//...
-	s.MapTo(r, (*Routes)(nil))
+	fmt.Printf("Map Routes...\n")
+	s.MapTo(r, (*Routing)(nil))
+	fmt.Printf("Add Post router...\n")
 	s.Action(r.Handle)
 	return &DefaultSparrow{s, r}
 }
